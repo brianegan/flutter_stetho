@@ -25,13 +25,26 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
  * FlutterStethoPlugin
  */
 public class FlutterStethoPlugin implements MethodCallHandler {
+    interface QueueItem {
+    }
+
+    class ByteQueueItem implements QueueItem {
+        final byte[] bytes;
+
+        ByteQueueItem(byte[] bytes) {
+            this.bytes = bytes;
+        }
+    }
+
+    class NullQueueItem implements QueueItem {
+    }
+
     public final static String TAG = "FlutterStethoPlugin";
     private final NetworkEventReporter mEventReporter = NetworkEventReporterImpl.get();
     private final Map<String, PipedInputStream> inputs = new HashMap<>();
     private final Map<String, PipedOutputStream> outputs = new HashMap<>();
     private final Map<String, FlutterStethoInspectorResponse> responses = new HashMap<>();
-    private final Map<String, LinkedBlockingQueue<byte[]>> queues = new HashMap<>();
-    private final Map<String, byte[]> bytes = new HashMap<>();
+    private final Map<String, LinkedBlockingQueue<QueueItem>> queues = new HashMap<>();
 
     /**
      * Plugin registration.
@@ -61,12 +74,27 @@ public class FlutterStethoPlugin implements MethodCallHandler {
                 try {
                     final PipedInputStream in = new PipedInputStream();
                     final PipedOutputStream out = new PipedOutputStream(in);
-                    final LinkedBlockingQueue<byte[]> queue = new LinkedBlockingQueue<>();
-                    final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    final LinkedBlockingQueue<QueueItem> queue = new LinkedBlockingQueue<>();
                     inputs.put(interpretedResponseId, in);
                     outputs.put(interpretedResponseId, out);
                     queues.put(interpretedResponseId, queue);
-                    bytes.put(interpretedResponseId, new byte[0]);
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                QueueItem item;
+                                while ((item = queue.take()) instanceof ByteQueueItem) {
+                                    out.write(((ByteQueueItem) item).bytes);
+                                }
+                                out.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, interpretedResponseId + "src").start();
 
                     new Thread(new Runnable() {
                         @Override
@@ -79,13 +107,10 @@ public class FlutterStethoPlugin implements MethodCallHandler {
                                     new DefaultResponseHandler(mEventReporter, interpretedResponseId));
                             try {
                                 int item;
-                                System.out.println("Reading ByteArray started:" + System.currentTimeMillis());
-                                while ((item = in2.read()) != -1);
-//                                    System.out.println(Integer.valueOf(item).toString());
-                                System.out.println("Reading ByteArray finished:" + System.currentTimeMillis());
+                                while ((item = in2.read()) != -1) ;
+                                in.close();
                                 in2.close();
                             } catch (IOException e) {
-                                System.out.println("Read Error");
                                 e.printStackTrace();
                             }
                         }
@@ -99,30 +124,22 @@ public class FlutterStethoPlugin implements MethodCallHandler {
                 Map<String, Object> arguments = (Map<String, Object>) call.arguments;
                 final String dataId = ((String) arguments.get("id"));
                 final byte[] data = ((byte[]) arguments.get("data"));
-                final byte[] onDataBytes = bytes.get(dataId);
-//                byte[] onDataResult = new byte[onDataBytes.length + data.length];
-//                System.arraycopy(onDataBytes, 0, onDataResult, 0, onDataBytes.length);
-//                System.arraycopy(data, 0, onDataResult, onDataBytes.length, data.length);
-                bytes.put(dataId, data);
+                final LinkedBlockingQueue<QueueItem> queue = queues.get(dataId);
+                try {
+                    queue.put(new ByteQueueItem(data));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "onDone":
                 final String onDoneId = ((String) call.arguments);
-                final byte[] onDoneBytes = bytes.get(onDoneId);
                 final PipedOutputStream pipedOutputStream = outputs.get(onDoneId);
-                System.out.println("OnDone:" + System.currentTimeMillis());
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            System.out.println("Writing ByteArray Started:" + System.currentTimeMillis());
-                            pipedOutputStream.write(onDoneBytes);
-                            System.out.println("Writing ByteArray Finished:" + System.currentTimeMillis());
-                            pipedOutputStream.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, onDoneId + "src").start();
+                final LinkedBlockingQueue<QueueItem> doneQueue = queues.get(onDoneId);
+                try {
+                    doneQueue.put(new NullQueueItem());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "responseReadFinished":
                 mEventReporter.responseReadFinished(((String) call.arguments));

@@ -28,13 +28,6 @@ android {
         disable 'InvalidPackage'
     }
     dependencies {
-        compile 'com.facebook.stetho:stetho:1.5.0'
+        implementation 'com.facebook.stetho:stetho:1.5.0'
     }
 }
-//dependencies {
-//    implementation files('/Users/phillywiggins/lab/flutter/bin/cache/artifacts/engine/android-x64/flutter.jar')
-//}
-
-//dependencies {
-//    implementation files('/Users/phillywiggins/lab/flutter/bin/cache/artifacts/engine/android-x64/flutter.jar')
-//}

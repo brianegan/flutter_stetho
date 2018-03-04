@@ -15,7 +15,7 @@ class _MyAppState extends State<MyApp> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   initPlatformState() async {
-    await client.get('https://flutter.io/images/flutter-mark-square-100.png');
+    client.get('https://www.hdwallback.net/wp-content/uploads/2017/03/4K-High-Definition-Wallpaper-3840x2160-1440x900.jpg');
   }
 
   @override
