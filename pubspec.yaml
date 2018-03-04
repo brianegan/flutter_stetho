@@ -4,6 +4,9 @@ version: 0.0.1
 author: Brian Egan <brian@brianegan.com>
 homepage: https://github.com/brianegan/flutter_stetho
 
+environment:
+  sdk: '>=1.24.3 <2.0.0'
+
 dependencies:
   flutter:
     sdk: flutter

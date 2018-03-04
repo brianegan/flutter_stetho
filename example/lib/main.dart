@@ -1,30 +1,32 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_stetho/flutter_stetho.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   HttpOverrides.global = new StethoHttpOverrides();
 
-  runApp(new MyApp());
+  runApp(new FlutterStethoExample(
+    client: new http.Client(),
+  ));
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => new _MyAppState();
-}
+class FlutterStethoExample extends StatelessWidget {
+  final http.Client client;
 
-class _MyAppState extends State<MyApp> {
-  final client = new http.Client();
+  FlutterStethoExample({Key key, this.client}) : super(key: key);
 
   fetchImage() {
-    client.get(
-        'https://flutter.io/images/flutter-mark-square-100.png');
+    client.get('https://flutter.io/images/flutter-mark-square-100.png');
   }
 
   fetchJson() {
     client.get('https://jsonplaceholder.typicode.com/posts/1');
+  }
+
+  fetchError() {
+    client.get('https://jsonplaceholder.typicode.com/postadsass/1');
   }
 
   @override
@@ -50,6 +52,13 @@ class _MyAppState extends State<MyApp> {
                 child: new RaisedButton(
                   onPressed: fetchImage,
                   child: new Text("Fetch image"),
+                ),
+              ),
+              new Padding(
+                padding: new EdgeInsets.all(16.0),
+                child: new RaisedButton(
+                  onPressed: fetchError,
+                  child: new Text("Fetch with Error"),
                 ),
               )
             ],
