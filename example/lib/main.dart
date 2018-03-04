@@ -1,7 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_stetho/flutter_stetho.dart';
 
-void main() => runApp(new MyApp());
+void main() {
+  HttpOverrides.global = new StethoHttpOverrides();
+
+  runApp(new MyApp());
+}
 
 class MyApp extends StatefulWidget {
   @override
@@ -13,7 +20,7 @@ class _MyAppState extends State<MyApp> {
 
   fetchImage() {
     client.get(
-        'https://www.hdwallback.net/wp-content/uploads/2017/03/4K-High-Definition-Wallpaper-3840x2160-1440x900.jpg');
+        'https://flutter.io/images/flutter-mark-square-100.png');
   }
 
   fetchJson() {
