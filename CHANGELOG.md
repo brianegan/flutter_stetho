@@ -1,3 +1,3 @@
-## [0.0.1] - TODO: Add release date.
+## 0.0.1 - 4 Mar 2018
 
-* TODO: Describe initial release.
+* Initial version, with support for network inspection on Android via the Chrome Dev Tools using Stetho
