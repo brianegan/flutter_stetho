@@ -1,3 +1,7 @@
+## 0.1.1 - 27 Apr 2018
+
+* Fix docs
+
 ## 0.1.0 - 27 Apr 2018
 
 * Fix for Dart 2. Thanks @thejakeofink!
