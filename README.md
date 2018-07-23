@@ -52,3 +52,4 @@ You should now see your App appear in the window.
   * Animated Gifs not working
   * Some error cases may not be properly handled. Need more testing / feedback to find problems.
   * No Tests
+  * If the app shuts down on start up run `flutter clean` to remove old builds.
