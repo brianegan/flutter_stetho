@@ -1,3 +1,7 @@
+## 0.1.2 - 17 Aug 2018
+
+* Fix `connectionTimeout`. Thanks @pcqpcq!
+
 ## 0.1.1 - 27 Apr 2018
 
 * Fix docs
