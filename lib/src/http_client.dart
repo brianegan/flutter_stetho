@@ -16,6 +16,9 @@ class StethoHttpClient implements HttpClient {
 
   @override
   Duration idleTimeout;
+  
+  @override
+  Duration connectionTimeout;
 
   @override
   int maxConnectionsPerHost;
