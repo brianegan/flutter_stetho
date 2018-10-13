@@ -1,3 +1,3 @@
 library flutter_stetho;
 
-export 'src/http_overrides.dart';
+export 'src/stetho.dart';

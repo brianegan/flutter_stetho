@@ -5,7 +5,7 @@ import 'package:flutter_stetho/flutter_stetho.dart';
 import 'package:http/http.dart' as http;
 
 void main() {
-  HttpOverrides.global = new StethoHttpOverrides();
+  Stetho.initialize();
 
   runApp(new FlutterStethoExample(
     client: new http.Client(),

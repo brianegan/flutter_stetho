@@ -27,16 +27,34 @@ public class FlutterStethoPlugin implements MethodCallHandler {
     private final Map<String, PipedOutputStream> outputs = new HashMap<>();
     private final Map<String, FlutterStethoInspectorResponse> responses = new HashMap<>();
     private final Map<String, LinkedBlockingQueue<QueueItem>> queues = new HashMap<>();
+    private final Stetho.Initializer initializer;
 
     public static void registerWith(Registrar registrar) {
-        Stetho.initializeWithDefaults(registrar.context());
         final MethodChannel channel = new MethodChannel(registrar.messenger(), "flutter_stetho");
-        channel.setMethodCallHandler(new FlutterStethoPlugin());
+        channel.setMethodCallHandler(new FlutterStethoPlugin(registrar.context()));
+    }
+
+    private FlutterStethoPlugin(final Context context) {
+        initializer = new Stetho.Initializer(context) {
+            @Override
+            protected Iterable<DumperPlugin> getDumperPlugins() {
+                return new Stetho.DefaultDumperPluginsBuilder(context).finish();
+            }
+
+            @Override
+            protected Iterable<ChromeDevtoolsDomain> getInspectorModules() {
+                return new Stetho.DefaultInspectorModulesBuilder(context).finish();
+            }
+        };
     }
 
     @Override
     public void onMethodCall(final MethodCall call, Result result) {
         switch (call.method) {
+            case "initialize":
+                Stetho.initialize(initializer);
+                result.success(null);
+                break;
             case "requestWillBeSent":
                 requestWillBeSent((Map<String, Object>) call.arguments);
                 break;
@@ -162,4 +180,3 @@ public class FlutterStethoPlugin implements MethodCallHandler {
     class NullQueueItem implements QueueItem {
     }
 }
-

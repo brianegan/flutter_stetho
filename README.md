@@ -29,7 +29,7 @@ Note: It's probably a good idea only put this override in [a `main_dev.dart` fil
 
 ```dart
 void main() {
-  HttpOverrides.global = new StethoHttpOverrides();
+  Stetho.initialize();
 
   runApp(new MyApp());
 }

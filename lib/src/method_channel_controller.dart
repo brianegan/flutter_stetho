@@ -29,4 +29,6 @@ class MethodChannelController {
 
   static Future<dynamic> onDone(String id) =>
       _channel.invokeMethod('onDone', id);
+
+  static Future<dynamic> initialize() => _channel.invokeMethod('initialize');
 }
