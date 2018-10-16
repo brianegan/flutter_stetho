@@ -1,3 +1,9 @@
+## 0.2.0 - 16 Oct 2018
+
+* BREAKING CHANGE: Use `Stetho.initialize()` instead of overriding the HTTP Client!
+* This allows us to initialize the Android code only when `Stetho.initialize()` is invoked, rather than running Stetho by default, which is bad for production builds.
+* More work to be done on stripping the plugin from the APK during production builds. Flutter issue opened.
+
 ## 0.1.2 - 17 Aug 2018
 
 * Fix `connectionTimeout`. Thanks @pcqpcq!
