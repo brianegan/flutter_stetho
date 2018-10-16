@@ -23,13 +23,13 @@ dev_dependencies:
 
 ### Install StethoHttpOverrides
 
-Next, you'll need to install the `StethoHttpOverrides` in the main() function of your app. This will allow `flutter_stetho` to wrap all http calls and report information to the Chrome Dev Tools via the Stetho package from Facebook.
+Next, you'll need to install the `Stetho.initialize()` in the main() function of your app. This will enable Stetho and allow `flutter_stetho` to wrap all http calls and report information to the Chrome Dev Tools via the Stetho package from Facebook.
 
 Note: It's probably a good idea only put this override in [a `main_dev.dart` file](https://flutter.rocks/2018/03/02/separating-build-environments-part-one/). 
 
 ```dart
 void main() {
-  HttpOverrides.global = new StethoHttpOverrides();
+  Stetho.initialize();
 
   runApp(new MyApp());
 }
