@@ -1,4 +1,8 @@
-## 0.2.0 - 16 Oct 2018
+## 0.2.1 - 19 Oct 2018
+
+* Bugfix: Imports were broken
+
+## 0.2.0 - 19 Oct 2018
 
 * BREAKING CHANGE: Use `Stetho.initialize()` instead of overriding the HTTP Client!
 * This allows us to initialize the Android code only when `Stetho.initialize()` is invoked, rather than running Stetho by default, which is bad for production builds.
