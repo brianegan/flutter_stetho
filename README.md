@@ -18,7 +18,7 @@ Add the following to your `dev_dependencies` in your `pubspec.yaml`
 
 ```yaml
 dev_dependencies:
-  flutter_stetho: 0.1.1
+  flutter_stetho: 0.2.0
 ```
 
 ### Install StethoHttpOverrides
