@@ -1,9 +1,13 @@
 package com.brianegan.flutterstetho;
 
 import com.facebook.stetho.Stetho;
+import com.facebook.stetho.dumpapp.DumperPlugin;
 import com.facebook.stetho.inspector.network.DefaultResponseHandler;
 import com.facebook.stetho.inspector.network.NetworkEventReporter;
 import com.facebook.stetho.inspector.network.NetworkEventReporterImpl;
+import com.facebook.stetho.inspector.protocol.ChromeDevtoolsDomain;
+
+import android.content.Context;
 
 import java.io.IOException;
 import java.io.InputStream;
