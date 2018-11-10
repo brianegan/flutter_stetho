@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_stetho/flutter_stetho.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   Stetho.initialize();
@@ -17,11 +16,17 @@ class FlutterStethoExample extends StatelessWidget {
   FlutterStethoExample({Key key, this.client}) : super(key: key);
 
   fetchImage() {
-    client.get('https://flutter.io/images/flutter-mark-square-100.png');
+    client.get(
+      'https://flutter.io/images/flutter-mark-square-100.png',
+      headers: {'Authorization': 'token'},
+    );
   }
 
   fetchJson() {
-    client.get('https://jsonplaceholder.typicode.com/posts/1');
+    client.get(
+      'https://jsonplaceholder.typicode.com/posts/1',
+      headers: {'Authorization': 'token'},
+    );
   }
 
   fetchError() {

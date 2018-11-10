@@ -1,3 +1,7 @@
+## 0.2.2 - 10 Nov 2018
+
+* Bugfix: Show correct request headers when using http client
+
 ## 0.2.1 - 19 Oct 2018
 
 * Bugfix: Imports were broken

@@ -16,7 +16,7 @@ class StethoHttpClient implements HttpClient {
 
   @override
   Duration idleTimeout;
-  
+
   @override
   Duration connectionTimeout;
 
@@ -128,18 +128,26 @@ class StethoHttpClient implements HttpClient {
 
   @override
   Future<HttpClientRequest> openUrl(String method, Uri url) async {
-    return _wrapResponse(await client.openUrl(method, url));
+    return client.openUrl(method, url).then((request) {
+      final wrapped = _wrapResponse(request);
+
+      scheduleMicrotask(() {
+        MethodChannelController.requestWillBeSent(
+          new FlutterStethoInspectorRequest(
+            url: request.uri.toString(),
+            headers: headersToMap(request.headers),
+            method: request.method,
+            id: wrapped.id,
+          ),
+        );
+      });
+
+      return wrapped;
+    });
   }
 
-  HttpClientRequest _wrapResponse(HttpClientRequest request) {
+  StethoHttpClientRequest _wrapResponse(HttpClientRequest request) {
     final id = new Uuid().generateV4();
-
-    MethodChannelController.requestWillBeSent(new FlutterStethoInspectorRequest(
-      url: request.uri.toString(),
-      headers: headersToMap(request.headers),
-      method: request.method,
-      id: id,
-    ));
 
     return new StethoHttpClientRequest(
       request,
