@@ -149,15 +149,6 @@ class StethoHttpClient implements HttpClient {
   StethoHttpClientRequest _wrapResponse(HttpClientRequest request) {
     final id = new Uuid().generateV4();
 
-    return new StethoHttpClientRequest(
-      request,
-      id,
-      request.bufferOutput,
-      request.contentLength,
-      request.encoding,
-      request.followRedirects,
-      request.maxRedirects,
-      request.persistentConnection,
-    );
+    return new StethoHttpClientRequest(request, id);
   }
 }
