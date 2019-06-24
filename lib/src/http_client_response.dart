@@ -18,6 +18,9 @@ class StethoHttpClientResponse extends StreamView<List<int>>
   int get contentLength => response.contentLength;
 
   @override
+  HttpClientResponseCompressionState get compressionState => response.compressionState;
+
+  @override
   List<Cookie> get cookies => response.cookies;
 
   @override
