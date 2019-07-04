@@ -75,7 +75,7 @@ class StethoHttpClientRequest implements HttpClientRequest {
 
     return new StethoHttpClientResponse(
       response,
-      response.transform(createResponseTransformer(id)),
+      createResponseTransformer(id).bind(response),
     );
   }
 
