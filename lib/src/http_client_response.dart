@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 
-class StethoHttpClientResponse extends StreamView<List<int>>
+class StethoHttpClientResponse extends StreamView<Uint8List>
     implements HttpClientResponse {
   final HttpClientResponse response;
 
-  StethoHttpClientResponse(this.response, Stream<List<int>> stream)
+  StethoHttpClientResponse(this.response, Stream<Uint8List> stream)
       : super(stream);
 
   @override
