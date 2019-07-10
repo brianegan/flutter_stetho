@@ -5,7 +5,7 @@ import 'dart:typed_data';
 
 import 'package:flutter_stetho/src/method_channel_controller.dart';
 
-StreamTransformer<Uint8List, Uint8List> createResponseTransformer(String id) {
+StreamTransformer<List<int>, List<int>> createResponseTransformer(String id) {
   return new StreamTransformer.fromHandlers(handleData: (data, sink) {
     sink.add(data);
     MethodChannelController.onData({"data": data, "id": id});
