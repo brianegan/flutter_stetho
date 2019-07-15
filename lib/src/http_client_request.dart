@@ -11,33 +11,9 @@ class StethoHttpClientRequest implements HttpClientRequest {
   final HttpClientRequest request;
   final String id;
 
-  @override
-  bool bufferOutput;
-
-  @override
-  int contentLength;
-
-  @override
-  Encoding encoding;
-
-  @override
-  bool followRedirects;
-
-  @override
-  int maxRedirects;
-
-  @override
-  bool persistentConnection;
-
   StethoHttpClientRequest(
     this.request,
     this.id,
-    this.bufferOutput,
-    this.contentLength,
-    this.encoding,
-    this.followRedirects,
-    this.maxRedirects,
-    this.persistentConnection,
   );
 
   @override
@@ -78,6 +54,44 @@ class StethoHttpClientRequest implements HttpClientRequest {
       createResponseTransformer(id).bind(response),
     );
   }
+
+  @override
+  bool get bufferOutput => request.bufferOutput;
+
+  @override
+  set bufferOutput(bool bufferOutput) => request.bufferOutput = bufferOutput;
+
+  @override
+  int get contentLength => request.contentLength;
+
+  @override
+  set contentLength(int contentLength) => request.contentLength = contentLength;
+
+  @override
+  Encoding get encoding => request.encoding;
+
+  @override
+  set encoding(Encoding encoding) => request.encoding = encoding;
+
+  @override
+  bool get followRedirects => request.followRedirects;
+
+  @override
+  set followRedirects(bool followRedirects) =>
+      request.followRedirects = followRedirects;
+
+  @override
+  int get maxRedirects => request.maxRedirects;
+
+  @override
+  set maxRedirects(int maxRedirects) => request.maxRedirects = maxRedirects;
+
+  @override
+  bool get persistentConnection => request.persistentConnection;
+
+  @override
+  set persistentConnection(bool persistentConnection) =>
+      request.persistentConnection = persistentConnection;
 
   @override
   HttpConnectionInfo get connectionInfo => request.connectionInfo;
