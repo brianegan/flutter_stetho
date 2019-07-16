@@ -1,3 +1,7 @@
+## 0.3.0 - 16 July 2019
+
+  * Fix for latest Dart 2.4 & Flutter 1.7.x version
+
 ## 0.2.2 - 10 Nov 2018
 
 * Bugfix: Show correct request headers when using http client

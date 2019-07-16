@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:typed_data';
 
 class StethoHttpClientResponse extends StreamView<List<int>>
     implements HttpClientResponse {

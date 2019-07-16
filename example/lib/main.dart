@@ -17,7 +17,7 @@ class FlutterStethoExample extends StatelessWidget {
 
   fetchImage() {
     client.get(
-      'https://flutter.io/images/flutter-mark-square-100.png',
+      'https://flutter.dev/assets/404/dash_nest-c64796b59b65042a2b40fae5764c13b7477a592db79eaf04c86298dcb75b78ea.png',
       headers: {'Authorization': 'token'},
     );
   }
