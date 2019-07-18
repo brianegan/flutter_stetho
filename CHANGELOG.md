@@ -1,6 +1,10 @@
+## 0.4.0 - 18 July 2019
+
+  * Proper Fix for latest Dart 2.4 & Flutter 1.7.x version -- use `Uint8List` instead of `List<int>`
+
 ## 0.3.0 - 16 July 2019
 
-  * Fix for latest Dart 2.4 & Flutter 1.7.x version
+  * Fix missing `compressionState` error.
 
 ## 0.2.2 - 10 Nov 2018
 
