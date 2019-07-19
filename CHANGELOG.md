@@ -1,6 +1,12 @@
+## 0.4.1 - 19 July 2019
+
+  * Update docs to specify correct version for Flutter
+    - For Flutter 1.7.x with Dart 2.4, use version `0.3.0`
+    - For Flutter 1.8.x+ with Dart 2.5, use version `0.4.0` or higher
+
 ## 0.4.0 - 18 July 2019
 
-  * Proper Fix for latest Dart 2.4 & Flutter 1.7.x version -- use `Uint8List` instead of `List<int>`
+  * Proper Fix for latest Dart 2.5 & Flutter 1.8.x -- use `Uint8List` instead of `List<int>`
 
 ## 0.3.0 - 16 July 2019
 

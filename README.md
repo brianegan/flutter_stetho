@@ -14,7 +14,10 @@ How can you too get this plugin up and running in your own app? Follow these ste
 
 ### Install the plugin  
 
-Follow the [installation instructions on the Pub website](https://pub.dartlang.org/packages/flutter_stetho#-installing-tab-)
+Add `flutter_stetho` to your dependencies in the `pubspec.yaml` file
+
+  - For Flutter 1.7.x with Dart 2.4, use version `0.3.0`
+  - For Flutter 1.8.x+ with Dart 2.5, use version `0.4.0` or higher
 
 ### Install StethoHttpOverrides
 
