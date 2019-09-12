@@ -17,13 +17,11 @@ class Stetho {
   ///   runApp(MyApp());
   /// }
   /// ```
-  static Future<void> initialize() {
+  static Future<void> initialize() async {
     if (Platform.isAndroid) {
       HttpOverrides.global = StethoHttpOverrides();
 
       return MethodChannelController.initialize();
     }
-
-    return Future.value();
   }
 }

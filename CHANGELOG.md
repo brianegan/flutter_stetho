@@ -1,3 +1,8 @@
+## 0.5.0 - 12 Sep 2019
+
+  * Update to work with Flutter Stable 0.19.1+hotfix.2
+  * Revert `UInt8List` back to `List<int>`
+
 ## 0.4.1 - 19 July 2019
 
   * Update docs to specify correct version for Flutter
