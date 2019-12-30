@@ -28,6 +28,6 @@ android {
         disable 'InvalidPackage'
     }
     dependencies {
-        implementation 'com.facebook.stetho:stetho:1.5.0'
+        implementation 'com.facebook.stetho:stetho:1.5.1'
     }
 }

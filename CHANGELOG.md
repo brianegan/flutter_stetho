@@ -1,3 +1,10 @@
+## 0.5.2 - 30 Dec 2019
+
+  * Fix for Flutter 1.12.13+hotfix.5
+  * Update to Stetho 1.5.1
+  * Ensure Widgets initialized
+  * Update example to latest Flutter
+
 ## 0.5.0 - 12 Sep 2019
 
   * Update to work with Flutter Stable 0.19.1+hotfix.2
