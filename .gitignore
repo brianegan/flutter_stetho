@@ -8,3 +8,6 @@ ios/.generated/
 packages
 pubspec.lock
 Podfile.lock
+.dart_tool
+.flutter-plugins-dependencies
+flutter_export_environment.sh
