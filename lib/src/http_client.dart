@@ -123,24 +123,43 @@ class StethoHttpClient implements HttpClient {
     int port,
     String path,
   ) async {
-    return _wrapResponse(await client.open(method, host, port, path));
+    Uri uri = Uri(host: host,port: port, path: path);
+    return await openUrl(method, uri);
   }
 
   @override
   Future<HttpClientRequest> openUrl(String method, Uri url) async {
     return client.openUrl(method, url).then((request) {
       final wrapped = _wrapResponse(request);
-
-      scheduleMicrotask(() {
-        MethodChannelController.requestWillBeSent(
-          new FlutterStethoInspectorRequest(
-            url: request.uri.toString(),
-            headers: headersToMap(request.headers),
-            method: request.method,
-            id: wrapped.id,
-          ),
-        );
-      });
+      List<int> body = [];
+      if (method.toLowerCase() != 'post' && method.toLowerCase() != 'put'){
+        scheduleMicrotask(() {
+          MethodChannelController.requestWillBeSent(
+            new FlutterStethoInspectorRequest(
+              url: request.uri.toString(),
+              headers: headersToMap(request.headers),
+              method: request.method,
+              id: wrapped.id,
+              body: body,
+            ),
+          );
+        });
+      } else {
+        wrapped.stream.listen((onData) {
+          body.addAll(onData);
+          scheduleMicrotask(() {
+            MethodChannelController.requestWillBeSent(
+              new FlutterStethoInspectorRequest(
+                url: request.uri.toString(),
+                headers: headersToMap(request.headers),
+                method: request.method,
+                id: wrapped.id,
+                body: body,
+              ),
+            );
+          });
+        });
+      }
 
       return wrapped;
     });

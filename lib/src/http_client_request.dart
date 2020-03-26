@@ -10,6 +10,8 @@ import 'package:flutter_stetho/src/utils.dart';
 class StethoHttpClientRequest implements HttpClientRequest {
   final HttpClientRequest request;
   final String id;
+  final StreamController<List<int>> _streamController = StreamController.broadcast();
+  Stream get stream => _streamController.stream.asBroadcastStream();
 
   StethoHttpClientRequest(
     this.request,
@@ -18,6 +20,7 @@ class StethoHttpClientRequest implements HttpClientRequest {
 
   @override
   void add(List<int> data) {
+    _streamController.add(data);
     request.add(data);
   }
 
@@ -28,13 +31,14 @@ class StethoHttpClientRequest implements HttpClientRequest {
 
   @override
   Future addStream(Stream<List<int>> stream) {
-    return request.addStream(stream);
+    var newStream = stream.asBroadcastStream();
+    newStream.listen((onData)=> _streamController.add(onData));
+    return request.addStream(newStream);
   }
 
   @override
   Future<HttpClientResponse> close() async {
     final response = await request.close();
-
     MethodChannelController.responseHeadersReceived(
       new FlutterStethoInspectorResponse(
         url: request.uri.toString(),
@@ -122,15 +126,23 @@ class StethoHttpClientRequest implements HttpClientRequest {
   @override
   void writeAll(Iterable objects, [String separator = ""]) {
     request.writeAll(objects, separator);
+    String data = objects.map((object) => object.toString()).join(separator);
+    _streamController.add(data.codeUnits);
   }
 
   @override
   void writeCharCode(int charCode) {
     request.writeCharCode(charCode);
+    _streamController.add([charCode]);
   }
 
   @override
   void writeln([Object obj = ""]) {
     request.writeln(obj);
+    if (obj is String){
+      _streamController.add(obj.codeUnits);
+    } else {
+      _streamController.add(obj.toString().codeUnits);
+    }
   }
 }
