@@ -10,7 +10,7 @@ import 'package:flutter_stetho/src/method_channel_controller.dart';
 StreamTransformer<List<int>, List<int>> createResponseTransformer(String id) {
   return new StreamTransformer.fromHandlers(handleData: (data, sink) {
     sink.add(data);
-    MethodChannelController.onData({"data": data, "id": id});
+    MethodChannelController.onDataReceived({"data": data, "id": id});
   }, handleError: (error, stacktrace, sink) {
     sink.addError(error, stacktrace);
     MethodChannelController.responseReadFailed([id, error.toString()]);
