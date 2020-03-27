@@ -24,8 +24,8 @@ class MethodChannelController {
   static Future<dynamic> responseReadFailed(List<String> idError) =>
       _channel.invokeMethod('responseReadFailed', idError);
 
-  static Future<dynamic> onData(Map<String, Object> map) =>
-      _channel.invokeMethod('onData', map);
+  static Future<dynamic> onDataReceived(Map<String, Object> map) =>
+      _channel.invokeMethod('onDataReceived', map);
 
   static Future<dynamic> onDone(String id) =>
       _channel.invokeMethod('onDone', id);

@@ -68,8 +68,8 @@ public class FlutterStethoPlugin implements MethodCallHandler {
             case "interpretResponseStream":
                 interpretResponseStream(((String) call.arguments));
                 break;
-            case "onData":
-                onData((Map<String, Object>) call.arguments);
+            case "onDataReceived":
+                onDataReceived((Map<String, Object>) call.arguments);
                 break;
             case "onDone":
                 onDone((String) call.arguments);
@@ -97,7 +97,7 @@ public class FlutterStethoPlugin implements MethodCallHandler {
         }
     }
 
-    private void onData(Map<String, Object> arguments) {
+    private void onDataReceived(Map<String, Object> arguments) {
         final String dataId = ((String) arguments.get("id"));
         final byte[] data = ((byte[]) arguments.get("data"));
         final LinkedBlockingQueue<QueueItem> queue = queues.get(dataId);
@@ -106,6 +106,7 @@ public class FlutterStethoPlugin implements MethodCallHandler {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        mEventReporter.dataReceived(dataId,data.length,data.length);
     }
 
     private void responseHeadersReceived(Map<String, Object> arguments) {
