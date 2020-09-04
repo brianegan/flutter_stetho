@@ -145,4 +145,9 @@ class StethoHttpClientRequest implements HttpClientRequest {
       _streamController.add(obj.toString().codeUnits);
     }
   }
+
+  @override
+  void abort([Object exception, StackTrace stackTrace]) {
+    request.addError(exception, stackTrace);
+  }
 }
