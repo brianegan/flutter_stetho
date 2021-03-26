@@ -123,7 +123,7 @@ class StethoHttpClient implements HttpClient {
     int port,
     String path,
   ) async {
-    Uri uri = Uri(host: host,port: port, path: path);
+    Uri uri = Uri(host: host, port: port, path: path);
     return await openUrl(method, uri);
   }
 
@@ -132,7 +132,7 @@ class StethoHttpClient implements HttpClient {
     return client.openUrl(method, url).then((request) {
       final wrapped = _wrapResponse(request);
       List<int> body = [];
-      if (method.toLowerCase() != 'post' && method.toLowerCase() != 'put'){
+      if (method.toLowerCase() != 'post' && method.toLowerCase() != 'put') {
         scheduleMicrotask(() {
           MethodChannelController.requestWillBeSent(
             new FlutterStethoInspectorRequest(
