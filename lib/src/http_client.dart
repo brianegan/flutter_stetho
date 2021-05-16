@@ -7,9 +7,12 @@ import 'package:flutter_stetho/src/method_channel_controller.dart';
 import 'package:flutter_stetho/src/utils.dart';
 
 class StethoHttpClient implements HttpClient {
-  final HttpClient client;
+  final HttpClient? client;
 
-  StethoHttpClient(this.client);
+  StethoHttpClient(
+      {required this.client,
+      this.autoUncompress = false,
+      this.idleTimeout = const Duration(seconds: 5)});
 
   @override
   bool autoUncompress;
@@ -18,13 +21,13 @@ class StethoHttpClient implements HttpClient {
   Duration idleTimeout;
 
   @override
-  Duration connectionTimeout;
+  Duration? connectionTimeout;
 
   @override
-  int maxConnectionsPerHost;
+  int? maxConnectionsPerHost;
 
   @override
-  String userAgent;
+  String? userAgent;
 
   @override
   void addCredentials(
@@ -32,7 +35,7 @@ class StethoHttpClient implements HttpClient {
     String realm,
     HttpClientCredentials credentials,
   ) {
-    client.addCredentials(url, realm, credentials);
+    client!.addCredentials(url, realm, credentials);
   }
 
   @override
@@ -42,33 +45,34 @@ class StethoHttpClient implements HttpClient {
     String realm,
     HttpClientCredentials credentials,
   ) {
-    client.addProxyCredentials(host, port, realm, credentials);
+    client!.addProxyCredentials(host, port, realm, credentials);
   }
 
   @override
   set authenticate(
-    Future<bool> Function(Uri url, String scheme, String realm) f,
+    Future<bool> Function(Uri url, String scheme, String realm)? f,
   ) {
-    client.authenticate = f;
+    client!.authenticate = f;
   }
 
   @override
   set authenticateProxy(
-    Future<bool> Function(String host, int port, String scheme, String realm) f,
+    Future<bool> Function(String host, int port, String scheme, String realm)?
+        f,
   ) {
-    client.authenticateProxy = f;
+    client!.authenticateProxy = f;
   }
 
   @override
   set badCertificateCallback(
-    bool Function(X509Certificate cert, String host, int port) callback,
+    bool Function(X509Certificate cert, String host, int port)? callback,
   ) {
-    client.badCertificateCallback = callback;
+    client!.badCertificateCallback = callback;
   }
 
   @override
-  void close({bool force: false}) {
-    client.close();
+  void close({bool force = false}) {
+    client!.close();
   }
 
   @override
@@ -114,7 +118,7 @@ class StethoHttpClient implements HttpClient {
   Future<HttpClientRequest> patchUrl(Uri url) => openUrl("patch", url);
 
   @override
-  set findProxy(String Function(Uri url) f) => client.findProxy = f;
+  set findProxy(String Function(Uri url)? f) => client!.findProxy = f;
 
   @override
   Future<HttpClientRequest> open(
@@ -123,19 +127,19 @@ class StethoHttpClient implements HttpClient {
     int port,
     String path,
   ) async {
-    Uri uri = Uri(host: host,port: port, path: path);
-    return await openUrl(method, uri);
+    final Uri uri = Uri(host: host, port: port, path: path);
+    return openUrl(method, uri);
   }
 
   @override
   Future<HttpClientRequest> openUrl(String method, Uri url) async {
-    return client.openUrl(method, url).then((request) {
+    return client!.openUrl(method, url).then((request) {
       final wrapped = _wrapResponse(request);
-      List<int> body = [];
-      if (method.toLowerCase() != 'post' && method.toLowerCase() != 'put'){
+      final List<int> body = [];
+      if (method.toLowerCase() != 'post' && method.toLowerCase() != 'put') {
         scheduleMicrotask(() {
           MethodChannelController.requestWillBeSent(
-            new FlutterStethoInspectorRequest(
+            FlutterStethoInspectorRequest(
               url: request.uri.toString(),
               headers: headersToMap(request.headers),
               method: request.method,
@@ -146,10 +150,10 @@ class StethoHttpClient implements HttpClient {
         });
       } else {
         wrapped.stream.listen((onData) {
-          body.addAll(onData);
+          body.addAll(onData as Iterable<int>);
           scheduleMicrotask(() {
             MethodChannelController.requestWillBeSent(
-              new FlutterStethoInspectorRequest(
+              FlutterStethoInspectorRequest(
                 url: request.uri.toString(),
                 headers: headersToMap(request.headers),
                 method: request.method,
@@ -166,8 +170,8 @@ class StethoHttpClient implements HttpClient {
   }
 
   StethoHttpClientRequest _wrapResponse(HttpClientRequest request) {
-    final id = new Uuid().generateV4();
+    final id = Uuid().generateV4();
 
-    return new StethoHttpClientRequest(request, id);
+    return StethoHttpClientRequest(request, id);
   }
 }

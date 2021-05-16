@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:typed_data';
 
 class StethoHttpClientResponse extends StreamView<List<int>>
     implements HttpClientResponse {
@@ -10,10 +9,10 @@ class StethoHttpClientResponse extends StreamView<List<int>>
       : super(stream);
 
   @override
-  X509Certificate get certificate => response.certificate;
+  X509Certificate? get certificate => response.certificate;
 
   @override
-  HttpConnectionInfo get connectionInfo => response.connectionInfo;
+  HttpConnectionInfo? get connectionInfo => response.connectionInfo;
 
   @override
   int get contentLength => response.contentLength;
@@ -40,7 +39,7 @@ class StethoHttpClientResponse extends StreamView<List<int>>
 
   @override
   Future<HttpClientResponse> redirect(
-      [String method, Uri url, bool followLoops]) {
+      [String? method, Uri? url, bool? followLoops]) {
     return response.redirect(method, url, followLoops);
   }
 

@@ -1,16 +1,23 @@
 name: flutter_stetho_example
-description: Demonstrates how to use the flutter_stetho plugin.
+description: Demonstrates how to use the flutter_stetho plugin for flutter 2.0.
+
+environment:
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
-  http: ^0.12.0
+  http: ^0.13.3
+  
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
   flutter_stetho:
     path: ../
+  flutter_test:
+    sdk: flutter
+
+
+
 
 flutter:
   uses-material-design: true

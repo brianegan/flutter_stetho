@@ -1,3 +1,7 @@
+## 0.6.0 - 16 May 2021 
+  * Fix for Flutter 2 Null safety version
+  * Lint apply
+
 ## 0.5.2 - 30 Dec 2019
 
   * Fix for Flutter 1.12.13+hotfix.5

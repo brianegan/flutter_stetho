@@ -10,7 +10,8 @@ import 'package:flutter_stetho/src/utils.dart';
 class StethoHttpClientRequest implements HttpClientRequest {
   final HttpClientRequest request;
   final String id;
-  final StreamController<List<int>> _streamController = StreamController.broadcast();
+  final StreamController<List<int>> _streamController =
+      StreamController.broadcast();
   Stream get stream => _streamController.stream.asBroadcastStream();
 
   StethoHttpClientRequest(
@@ -25,14 +26,14 @@ class StethoHttpClientRequest implements HttpClientRequest {
   }
 
   @override
-  void addError(Object error, [StackTrace stackTrace]) {
+  void addError(Object error, [StackTrace? stackTrace]) {
     request.addError(error, stackTrace);
   }
 
   @override
   Future addStream(Stream<List<int>> stream) {
-    var newStream = stream.asBroadcastStream();
-    newStream.listen((onData)=> _streamController.add(onData));
+    final newStream = stream.asBroadcastStream();
+    newStream.listen((onData) => _streamController.add(onData));
     return request.addStream(newStream);
   }
 
@@ -40,7 +41,7 @@ class StethoHttpClientRequest implements HttpClientRequest {
   Future<HttpClientResponse> close() async {
     final response = await request.close();
     MethodChannelController.responseHeadersReceived(
-      new FlutterStethoInspectorResponse(
+      FlutterStethoInspectorResponse(
         url: request.uri.toString(),
         statusCode: response.statusCode,
         requestId: id,
@@ -53,7 +54,7 @@ class StethoHttpClientRequest implements HttpClientRequest {
 
     MethodChannelController.interpretResponseStream(id);
 
-    return new StethoHttpClientResponse(
+    return StethoHttpClientResponse(
       response,
       response.transform(createResponseTransformer(id)),
     );
@@ -98,7 +99,7 @@ class StethoHttpClientRequest implements HttpClientRequest {
       request.persistentConnection = persistentConnection;
 
   @override
-  HttpConnectionInfo get connectionInfo => request.connectionInfo;
+  HttpConnectionInfo? get connectionInfo => request.connectionInfo;
 
   @override
   List<Cookie> get cookies => request.cookies;
@@ -119,14 +120,15 @@ class StethoHttpClientRequest implements HttpClientRequest {
   Uri get uri => request.uri;
 
   @override
-  void write(Object obj) {
+  void write(Object? obj) {
     request.write(obj);
   }
 
   @override
   void writeAll(Iterable objects, [String separator = ""]) {
     request.writeAll(objects, separator);
-    String data = objects.map((object) => object.toString()).join(separator);
+    final String data =
+        objects.map((object) => object.toString()).join(separator);
     _streamController.add(data.codeUnits);
   }
 
@@ -137,12 +139,15 @@ class StethoHttpClientRequest implements HttpClientRequest {
   }
 
   @override
-  void writeln([Object obj = ""]) {
+  void writeln([Object? obj = ""]) {
     request.writeln(obj);
-    if (obj is String){
+    if (obj is String) {
       _streamController.add(obj.codeUnits);
     } else {
       _streamController.add(obj.toString().codeUnits);
     }
   }
+
+  @override
+  void abort([Object? exception, StackTrace? stackTrace]) {}
 }
