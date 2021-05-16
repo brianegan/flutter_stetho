@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 class FlutterStethoInspectorResponse {
   final String url;
   final bool connectionReused;
@@ -11,13 +9,13 @@ class FlutterStethoInspectorResponse {
   final Map<String, String> headers;
 
   FlutterStethoInspectorResponse({
-    @required this.url,
-    @required this.connectionReused,
-    @required this.connectionId,
-    @required this.requestId,
-    @required this.statusCode,
-    @required this.reasonPhrase,
-    @required this.headers,
+    required this.url,
+    required this.connectionReused,
+    required this.connectionId,
+    required this.requestId,
+    required this.statusCode,
+    required this.reasonPhrase,
+    required this.headers,
     this.fromDiskCache = false,
   });
 

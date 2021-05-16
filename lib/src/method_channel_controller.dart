@@ -5,7 +5,7 @@ import 'package:flutter_stetho/src/inspector_request.dart';
 import 'package:flutter_stetho/src/inspector_response.dart';
 
 class MethodChannelController {
-  static const MethodChannel _channel = const MethodChannel('flutter_stetho');
+  static const MethodChannel _channel = MethodChannel('flutter_stetho');
 
   static Future<dynamic> requestWillBeSent(
           FlutterStethoInspectorRequest request) =>
