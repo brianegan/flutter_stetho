@@ -7,14 +7,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_stetho:
-    path: ../
   http: ^0.13.3
   
 
 dev_dependencies:
+  flutter_stetho:
+    path: ../
   flutter_test:
     sdk: flutter
+
 
 
 
