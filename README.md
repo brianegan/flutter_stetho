@@ -20,6 +20,8 @@ dev_dependencies:
 Add on `main.dart`
 
 ```dart
+import 'package:flutter_stetho/flutter_stetho.dart';
+
 void main() {
   Stetho.initialize();
 
