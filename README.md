@@ -2,6 +2,10 @@
 
 A plugin that connects Flutter to the Chrome Dev Tools on Android devices via the [Stetho Android Library](http://facebook.github.io/stetho/).
 
+## Bug on Inspector of Google Chrome
+
+info: In the last update of Google Chrome, there is a bug in the inspect, so use other browsers based on the older versions of chrome, like [Brave](https://brave.com/download/).
+
 ## Network Inspector
 
 The main feature I was aiming to achieve was a Network Inspector. 
@@ -19,6 +23,7 @@ Add `flutter_stetho` to your dependencies in the `pubspec.yaml` file
   - For Flutter 1.7.x, use version `0.3.x`
   - For Flutter 1.8.x, use version `0.4.x`
   - For Flutter 1.9.x, use version `0.5.x`
+  - For Flutter 2.x, use version `0.6.x`
 
 ### Install StethoHttpOverrides
 
